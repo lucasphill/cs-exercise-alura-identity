@@ -8,6 +8,13 @@ namespace Identity.API.Services;
 
 public class TokenService
 {
+    private IConfiguration _configuration;
+
+    public TokenService(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
     public string TokenGenerate(Usuario usuario)
     {
         Claim[] claims = new Claim[]
@@ -17,7 +24,7 @@ public class TokenService
             new Claim(ClaimTypes.DateOfBirth, usuario.DataNascimento.ToString())
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("S4!@56L45K#$%AH56JD2l1kd7hsa45s12afa+++sASKLD)(*&--ASDlska346/*-+5jda"));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SymmetricSecurityKey"]));
         var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken

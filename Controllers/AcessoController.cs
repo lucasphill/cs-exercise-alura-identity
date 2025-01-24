@@ -9,7 +9,7 @@ namespace Identity.API.Controllers
     public class AcessoController : ControllerBase
     {
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "IdadeMinima")]
         public IActionResult Get() { return Ok("Acesso permitido"); }
     }
 }
